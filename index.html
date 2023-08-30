@@ -11,10 +11,29 @@
 </head>
 
 <body onload="getTodos()">
-    <div>
-        <input type="text" id="new-todo" placeholder="Add new todo"/>
-        <button onclick="addTodo()">+ Add Todo</button>
+    <div id="all-todos">
         <ul id="todos"></ul>
+        <button onclick="addNewTodo()">+</button>
+    </div>
+    <div id="add-todo" style="display: none;">
+        <input type="text" id="new-todo" placeholder="Add new todo"/><br/>
+        <textarea name="todo-description" id="todo-description" placeholder="Description"></textarea>
+        <div class="d-flex">
+            <h6>List</h6>
+            <select name="list" id="task-list">
+                <option value="Personal" hidden>Default</option>
+                <option value="Personal">Personal</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Wishlist">Wishlist</option>
+                <option value="Work">Work</option>
+                <option value="Education">Education</option>
+            </select>
+        </div>
+        <div class="date-time">
+            <input type="date" name="due-date" id="due-date" placeholder="Date not set"/>
+            <input type="time" name="due-time" id="due-time" placeholder="Time not set(all day)"/>
+        </div>
+        <button onclick="addTodo()">+ Add Todo</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
