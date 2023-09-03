@@ -6,3 +6,25 @@ body {
     margin: 0px;
     padding: 0px;
 }
+
+.todo-item {
+    align-items: flex-start;
+    background-color: aliceblue;
+}
+
+textarea {
+    resize: none;
+}
+
+input {
+    border: 1px solid #000;
+    outline: none;
+}
+
+.red-border {
+    border: 1px solid #ff0000;
+}
+
+.no-margin {
+    margin: 0px;
+}

@@ -11,17 +11,52 @@
 </head>
 
 <body onload="getTodos()">
-    <div id="all-todos">
-        <ul id="todos"></ul>
-        <button onclick="addNewTodo()">+</button>
+    <div class="header">
+        <div class="hambuger-offcanvas">
+            <span id="line-1"></span>
+            <span id="line-2"></span>
+            <span id="line-3"></span>
+        </div>
+        <h1><img src="" alt="logo"></h1>
     </div>
+
+    <div id="all-todos">
+        <div id="todos"></div>
+        <img src="" alt="add todo to start" id="add-first-todo" style="display:none !important" />
+        <img src="" alt="no todo" id="no-todo" style="display:none !important" />
+        <button onclick="addNewTodo()" class="btn btn-primary">+</button>
+    </div>
+
     <div id="add-todo" style="display: none;">
-        <input type="text" id="new-todo" placeholder="Add new todo"/><br/>
-        <textarea name="todo-description" id="todo-description" placeholder="Description"></textarea>
-        <div class="d-flex">
-            <h6>List</h6>
-            <select name="list" id="task-list">
-                <option value="Personal" hidden>Default</option>
+        <div>
+            <label for="new-todo">
+                <h6>What is to be done?</h6>
+            </label><br />
+            <input type="text" id="new-todo" placeholder="Enter Task Here" required />
+            <div class="text-danger" style="display: none !important;">Please add a todo title</div>
+        </div>
+
+        <label for="todo-description">
+            <h6>Add description of the task:</h6>
+        </label><br />
+        <textarea name="todo-description" id="todo-description" placeholder="Enter Description Here"></textarea>
+
+        <div class="date-time">
+            <label for="due-date">
+                <h6>Due Date</h6>
+            </label><br />
+            <input type="text" name="due-date" id="due-date" placeholder="Date not set" onfocus="this.type = 'date'"
+                onblur="this.type = 'text'" /><br />
+            <input type="text" name="due-time" id="due-time" placeholder="Time not set(all day)"
+                style="display: none !important;" onfocus="this.type = 'time'" onblur="this.type = 'text'" />
+        </div>
+
+        <div>
+            <label for="task-list">
+                <h6>Add to list</h6>
+            </label><br />
+            <select name="list" id="task-list" required>
+                <option value="default" hidden>Default</option>
                 <option value="Personal">Personal</option>
                 <option value="Shopping">Shopping</option>
                 <option value="Wishlist">Wishlist</option>
@@ -29,11 +64,8 @@
                 <option value="Education">Education</option>
             </select>
         </div>
-        <div class="date-time">
-            <input type="date" name="due-date" id="due-date" placeholder="Date not set"/>
-            <input type="time" name="due-time" id="due-time" placeholder="Time not set(all day)"/>
-        </div>
-        <button onclick="addTodo()">+ Add Todo</button>
+
+        <button onclick="addTodo()" class="btn btn-primary">+ Add Todo</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
