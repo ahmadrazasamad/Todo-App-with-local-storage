@@ -6,28 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css" />
     <title>Just Do it</title>
 </head>
 
 <body onload="getTodos()">
-    <div class="header">
-        <div class="hambuger-offcanvas">
-            <span id="line-1"></span>
-            <span id="line-2"></span>
-            <span id="line-3"></span>
-        </div>
+    <div class="header d-flex">
         <h1><img src="" alt="logo"></h1>
+        <div data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+            <div class="hambuger-offcanvas" id="menu-toggle">
+                <span id="line-1"></span>
+                <span id="line-2"></span>
+                <span id="line-3"></span>
+            </div>
+        </div>
+
+        <div class="menu-content offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasRightLabel">Todos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <p>All Tasks</p>
+                <p>Default</p>
+                <p>Personal</p>
+                <p>Shopping</p>
+                <p>Wishlist</p>
+                <p>Work</p>
+                <p>Education</p>
+            </div>
+        </div>
     </div>
 
     <div id="all-todos">
         <div id="todos"></div>
         <img src="" alt="add todo to start" id="add-first-todo" style="display:none !important" />
         <img src="" alt="no todo" id="no-todo" style="display:none !important" />
+        <button onclick="deleteAll()" class="btn btn-primary" style="display: none !important;" id="dltAllBtn">Delete All</button>
         <button onclick="addNewTodo()" class="btn btn-primary">+</button>
     </div>
 
-    <div id="add-todo" style="display: none;">
+    <div id="add-todo" style="display: none !important;">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-arrow-left" id="go-back" onclick="goBack()"></i>
+            <h3 id="new-todo-head"></h3>
+            <i class="bi bi-trash-fill" style="display: none !important;" id="delete-todo"></i>
+        </div>
         <div>
             <label for="new-todo">
                 <h6>What is to be done?</h6>
@@ -65,9 +90,11 @@
             </select>
         </div>
 
-        <button onclick="addTodo()" class="btn btn-primary">+ Add Todo</button>
+        <button onclick="addTodo()" class="btn btn-primary" id="add-todo-btn">+ Add Todo</button>
+        <button style="display: none !important;" class="btn btn-primary" id="save-todo">✓ Save Todo</button>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>

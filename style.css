@@ -7,9 +7,25 @@ body {
     padding: 0px;
 }
 
+#go-back,
+#delete-todo {
+    font-size: 1.5em;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+#new-todo-head {
+    margin: 0px;
+}
+
 .todo-item {
     align-items: flex-start;
+    margin: 5px;
     background-color: aliceblue;
+}
+
+.todo-item div {
+    cursor: pointer;
 }
 
 textarea {
@@ -27,4 +43,33 @@ input {
 
 .no-margin {
     margin: 0px;
+}
+
+.hambuger-offcanvas {
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+#line-1,
+#line-2,
+#line-3 {
+    height: 5px;
+    background-color: #0d6efd;
+    margin: 5px 0;
+}
+
+#line-1 {
+    width: 30px;
+}
+
+#line-2 {
+    width: 45px;
+}
+
+#line-3 {
+    width: 20px;
 }
