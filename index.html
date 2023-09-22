@@ -28,13 +28,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <p>All Tasks</p>
-                <p>Default</p>
-                <p>Personal</p>
-                <p>Shopping</p>
-                <p>Wishlist</p>
-                <p>Work</p>
-                <p>Education</p>
+                <p class="task-items">All Tasks<span id="all-todo-count" class="count">0</span></p>
+                <p class="task-items">Default<span id="default-todo-count" class="count">0</span></p>
+                <p class="task-items">Personal<span id="personal-todo-count" class="count">0</span></p>
+                <p class="task-items">Shopping<span id="shopping-todo-count" class="count">0</span></p>
+                <p class="task-items">Wishlist<span id="wishlist-todo-count" class="count">0</span></p>
+                <p class="task-items">Work<span id="work-todo-count" class="count">0</span></p>
+                <p class="task-items">Education<span id="education-todo-count" class="count">0</span></p>
+                <p class="task-items">Completed<span id="completed-todo-count" class="count">0</span></p>
             </div>
         </div>
     </div>
@@ -59,6 +60,10 @@
             </label><br />
             <input type="text" id="new-todo" placeholder="Enter Task Here" required />
             <div class="text-danger" style="display: none !important;">Please add a todo title</div>
+            <div id="task-completed" style="display: none !important;">
+                <input type="checkbox" id="task-finished"/>
+                <label for="task-finished">Task Finished?</label>
+            </div>
         </div>
 
         <label for="todo-description">
@@ -70,8 +75,7 @@
             <label for="due-date">
                 <h6>Due Date</h6>
             </label><br />
-            <input type="text" name="due-date" id="due-date" placeholder="Date not set" onfocus="this.type = 'date'"
-                onblur="this.type = 'text'" /><br />
+            <input type="text" name="due-date" id="due-date" placeholder="Date not set" onfocus="this.type = 'date'" onblur="this.type = 'text'" /><br />
             <input type="text" name="due-time" id="due-time" placeholder="Time not set(all day)"
                 style="display: none !important;" onfocus="this.type = 'time'" onblur="this.type = 'text'" />
         </div>
@@ -94,6 +98,7 @@
         <button style="display: none !important;" class="btn btn-primary" id="save-todo">✓ Save Todo</button>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js" integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
