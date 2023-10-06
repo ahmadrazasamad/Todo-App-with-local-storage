@@ -11,7 +11,7 @@
     <title>Just Do it</title>
 </head>
 
-<body onload="getTodos()">
+<body onload="getTodos('all')">
     <div class="header d-flex">
         <h1><img src="" alt="logo"></h1>
         <div data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -28,14 +28,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <p class="task-items">All Tasks<span id="all-todo-count" class="count">0</span></p>
-                <p class="task-items">Default<span id="default-todo-count" class="count">0</span></p>
-                <p class="task-items">Personal<span id="personal-todo-count" class="count">0</span></p>
-                <p class="task-items">Shopping<span id="shopping-todo-count" class="count">0</span></p>
-                <p class="task-items">Wishlist<span id="wishlist-todo-count" class="count">0</span></p>
-                <p class="task-items">Work<span id="work-todo-count" class="count">0</span></p>
-                <p class="task-items">Education<span id="education-todo-count" class="count">0</span></p>
-                <p class="task-items">Completed<span id="completed-todo-count" class="count">0</span></p>
+                <p class="task-items" onclick="getTodos('all')">All Tasks<span id="all-todo-count" class="count">0</span></p>
+                <p class="task-items" onclick="getTodos('Default')">Default<span id="default-todo-count" class="count">0</span></p>
+                <p class="task-items" onclick="getTodos('Personal')">Personal<span id="personal-todo-count" class="count">0</span></p>
+                <p class="task-items" onclick="getTodos('Shopping')">Shopping<span id="shopping-todo-count" class="count">0</span></p>
+                <p class="task-items" onclick="getTodos('Wishlist')">Wishlist<span id="wishlist-todo-count" class="count">0</span></p>
+                <p class="task-items" onclick="getTodos('Work')">Work<span id="work-todo-count" class="count">0</span></p>
+                <p class="task-items" onclick="getTodos('Education')">Education<span id="education-todo-count" class="count">0</span></p>
+                <p class="task-items" onclick="getTodos('Completed')">Completed<span id="completed-todo-count" class="count">0</span></p>
             </div>
         </div>
     </div>
@@ -85,7 +85,7 @@
                 <h6>Add to list</h6>
             </label><br />
             <select name="list" id="task-list" required>
-                <option value="default" hidden>Default</option>
+                <option value="Default" hidden>Default</option>
                 <option value="Personal">Personal</option>
                 <option value="Shopping">Shopping</option>
                 <option value="Wishlist">Wishlist</option>

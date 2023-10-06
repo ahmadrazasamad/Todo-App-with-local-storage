@@ -94,3 +94,7 @@ input {
     border-radius: 5px;
     padding: 2px 10px;
 }
+
+.task-empty span {
+    color: #0d6efd
+}
