@@ -50,13 +50,38 @@ const educationTodoCount = document.getElementById("education-todo-count");
 const completedTodoCount = document.getElementById("completed-todo-count");
 
 const getTodos = (taskCategory) => { // getting all todos from local storage
-    let oldTodos = JSON.parse(localStorage.getItem("todos")); // getting all-todos from localStorage
+    const allTodos = JSON.parse(localStorage.getItem("todos")); // getting all-todos from localStorage
+
+    let oldTodos = allTodos ? allTodos.filter(todo => !todo.isCompleted) : []; // filtering out the non-completed one
+    let completedTodos = allTodos ? allTodos.filter(todo => todo.isCompleted) : []; // filtering out the completed one
 
     const compareDueDates = (a, b) => { // function for sorting todo list according to due dates
         return new Date(a.dueDate) - new Date(b.dueDate);
     }
 
-    if (oldTodos === null) {
+    // Modifying HTML of Task counts according to task lists(Drawer/offcanvas)
+    allTodoCount.innerHTML = oldTodos.length; // for all todos
+    const taskListCounts = { // for other categories
+        "Default": defaultTodoCount,
+        "Personal": personalTodoCount,
+        "Shopping": shoppingTodoCount,
+        "Wishlist": wishlistTodoCount,
+        "Work": workTodoCount,
+        "Education": educationTodoCount
+    }
+    for (let element in taskListCounts) {
+        taskListCounts[element].innerHTML = "0";
+    }
+    oldTodos.forEach(thisTodo => {
+        const taskList = thisTodo.taskList;
+        let taskCount = Number(taskListCounts[taskList].innerHTML);
+        taskListCounts[taskList].innerHTML = ++taskCount;
+    });
+    completedTodos ? completedTodoCount.innerHTML = completedTodos.length : completedTodoCount.innerHTML = 0; // for completed todos
+
+    todosList.innerHTML = ""; // emptying out the innerHTML so that it does not concatenate again as += is used further
+
+    if (allTodos === null) {
         showElement(addFirstTodoImg);
 
         if (taskCategory !== "all") {
@@ -65,49 +90,27 @@ const getTodos = (taskCategory) => { // getting all todos from local storage
 
             hideElement(addFirstTodoImg);
         }
-    } else if (oldTodos.length > 0) {
+    } else if (oldTodos.length > 0 || completedTodos.length > 0) {
         hideElement(addFirstTodoImg);
-
-        oldTodos = oldTodos.filter(todo => !todo.isCompleted); // filtering out the non-completed one
-        if (oldTodos.length > 0) {
-            showElement(dltAllBtn);
-            hideElement(noTodoImg);
-        }
-        const completedTodos = oldTodos.filter(todo => todo.isCompleted); // filtering out the completed one
-
-        // Modifying HTML of Task counts according to task lists(Drawer/offcanvas)
-        allTodoCount.innerHTML = oldTodos.length; // for all todos
-        const taskListCounts = { // for other categories
-            "Default": defaultTodoCount,
-            "Personal": personalTodoCount,
-            "Shopping": shoppingTodoCount,
-            "Wishlist": wishlistTodoCount,
-            "Work": workTodoCount,
-            "Education": educationTodoCount
-        }
-        for (let element in taskListCounts) {
-            taskListCounts[element].innerHTML = "0";
-        }
-        oldTodos.forEach(thisTodo => {
-            const taskList = thisTodo.taskList;
-            let taskCount = Number(taskListCounts[taskList].innerHTML);
-            taskListCounts[taskList].innerHTML = ++taskCount;
-        });
-        completedTodos ? completedTodoCount.innerHTML = completedTodos.length : completedTodoCount.innerHTML = 0; // for completed todos
-
-        todosList.innerHTML = ""; // emptying out the innerHTML so that it does not concatenate again as += is used further
+        hideElement(noTodoImg);
+        showElement(dltAllBtn);
 
         // filtration of todos according to tasklist
         if (taskCategory !== "all" && taskCategory !== "Completed") {
             oldTodos = oldTodos.filter(todo => todo.taskList === taskCategory);
             todosList.innerHTML = `<h2 class="tasklist-heading">${taskCategory}</h2>`;
         } else if (taskCategory === "Completed") {
-            oldTodos = completedTodos;
+            oldTodos = completedTodos; // saving the completed todos in the oldTodos for the render process as in render process we have looped over oldTodos only
             todosList.innerHTML = `<h2 class="tasklist-heading">${taskCategory}</h2>`;
         }
 
         // Giving details if the task category is empty or not
-        todosList.innerHTML += (oldTodos.length < 1 ? `<p class="task-empty">List <span>${taskCategory}</span> is empty</p>` : '');
+        if (oldTodos.length < 1 && taskCategory !== "all") {
+            todosList.innerHTML += `<p class="task-empty">List <span>${taskCategory}</span> is empty</p>`;
+        } else if (oldTodos.length < 1 && taskCategory === "all") {
+            showElement(noTodoImg);
+            hideElement(dltAllBtn);
+        }
 
         // Variables for categorising
         const groupedTodos = {};
@@ -297,26 +300,43 @@ const maintainTodo = (todoItemId) => {
     }
     newTodoList.value = todoToEdit.taskList;
 
+    let eventHandeled = false;
+
     // save todo / edit todo
     saveTodoBtn.addEventListener("click", () => { // Edit Todo
-        if (!todoToEdit.isCompleted && taskCompletedInput.checked) {
-            markTodoAsCompleted(todoItemId);
-        } else {
+        if (!eventHandeled) { // to prevent the event listener to listen two times
+            const dueDate = new Date(`${dueDateInput.value} ${dueTimeInput.value}`);
             const editedTodo = {
                 id: todoItemId,
                 title: newTodoTitle.value,
                 description: newTodoDescription.value,
-                dueDate: new Date(`${dueDateInput.value} ${dueTimeInput.value}`),
+                dueDate: isNaN(dueDate.getTime()) ? null : dueDate,
                 taskList: newTodoList.value,
                 isCompleted: todoToEdit.isCompleted
             };
-            allTodos.splice(todoItemIndex, 1, editedTodo);
-            localStorage.setItem("todos", JSON.stringify(allTodos));
+            let objChecker = () => {
+                for (const key in editedTodo) {
+                    if (editedTodo[key] !== todoToEdit[key]) {
+                        return false;
+                    }
+                }
+                return true;
+            };
+            objChecker = objChecker();
+
+            if (!objChecker) {
+                allTodos.splice(todoItemIndex, 1, editedTodo);
+                localStorage.setItem("todos", JSON.stringify(allTodos));
+            }
+            if (!todoToEdit.isCompleted && taskCompletedInput.checked) {
+                markTodoAsCompleted(todoItemId);
+            }
+            showElement(allTodosDiv);
+            hideElement(addNewTodoDiv);
             getTodos("all");
+            clearInputValues();
+            eventHandeled = true;
         }
-        clearInputValues();
-        showElement(allTodosDiv);
-        hideElement(addNewTodoDiv);
     });
 
     deleteTodoBtn.addEventListener("click", () => { // Delete todo
